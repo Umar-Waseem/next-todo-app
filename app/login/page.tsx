@@ -8,12 +8,16 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleEmailChange = (e:any) => setEmail(e.target.value);
-    const handlePasswordChange = (e:any) => setPassword(e.target.value);
+    const handleEmailChange = (e: any) => setEmail(e.target.value);
+    const handlePasswordChange = (e: any) => setPassword(e.target.value);
 
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e:any) => {
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e: any) => {
+        setError('');
+
         e.preventDefault();
 
         try {
@@ -23,30 +27,30 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                
+
                 body: JSON.stringify({
                     email,
                     password,
                 }),
             });
 
+            const data = await response.json();
+
             if (response.ok) {
-                alert('Login successful!');
-                const data = await response.json();
-                // Assuming the API returns an access_token
+
                 const { access_token } = data;
-
-                // Store the access_token in the nextjs app
                 localStorage.setItem('token', access_token);
-
-                // Redirect to /home after successful login
                 window.location.href = '/home';
+
             } else {
-                alert('Login failed.');
+
+                setError(data.detail);
                 console.error('Login failed');
+
             }
-        } catch (error:any) {
-            alert(error.message);
+        } catch (error: any) {
+            // alert(error.message);
+            alert('Login failed.');
             console.error('Error during login:', error);
         }
         finally {
@@ -72,7 +76,7 @@ const Login = () => {
                             Sign in to your account
                         </h1>
                         <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                        <div>
+                            <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
                                     Your email
                                 </label>
@@ -102,20 +106,24 @@ const Login = () => {
                                     required
                                 />
                             </div>
+                            {error && <div className='flex justify-center items-center'>
+                                <p className='inline-block text-xs text-center bg-red-500 text-white p-2 rounded'>{error}</p>
+                            </div>}
+
                             {loading && <Loader />}
                             {!loading && <>
-                            <button
-                                type="submit"
-                                className="w-full text-white font-bold bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center"
-                            >
-                                Sign in
-                            </button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Dont have an account yet?
-                                <Link href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                                    Sign up
-                                </Link>
-                            </p>
+                                <button
+                                    type="submit"
+                                    className="w-full text-white font-bold bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center"
+                                >
+                                    Sign in
+                                </button>
+                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Dont have an account yet?
+                                    <Link href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                        Sign up
+                                    </Link>
+                                </p>
                             </>}
                         </form>
                     </div>
