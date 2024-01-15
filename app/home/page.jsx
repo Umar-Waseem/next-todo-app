@@ -153,7 +153,7 @@ export default function Home() {
         }
     };
     return (
-        <section>
+        <section className={loading ? "flex flex-col justify-center items-center min-h-screen" : ""}>
             {loading && <Loader />}
             {!loading && <div className="p-8 flex flex-col justify-center items-center">
                 <h1 className="text-4xl font-bold mb-4">Your Tasks To Do!</h1>
