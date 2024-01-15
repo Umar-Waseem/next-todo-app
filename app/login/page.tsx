@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import Loader from '../components/Loader';
 
+import { toast } from 'react-hot-toast';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,10 +15,10 @@ const Login = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const [error, setError] = useState('');
+
 
     const handleSubmit = async (e: any) => {
-        setError('');
+        
 
         e.preventDefault();
 
@@ -38,19 +40,26 @@ const Login = () => {
 
             if (response.ok) {
 
+                toast.success(`Login Successful!`, {
+                    duration: 4000,
+                });
+
                 const { access_token } = data;
                 localStorage.setItem('token', access_token);
                 window.location.href = '/home';
 
             } else {
 
-                setError(data.detail);
+                toast.error(`Login Failed: ${data.detail}!`, {
+                    duration: 4000,
+                });
                 console.error('Login failed');
 
             }
         } catch (error: any) {
-            // alert(error.message);
-            alert('Login failed.');
+            toast.error(`Login Failed, please try again!`, {
+                duration: 4000,
+            });
             console.error('Error during login:', error);
         }
         finally {
@@ -106,9 +115,7 @@ const Login = () => {
                                     required
                                 />
                             </div>
-                            {error && <div className='flex justify-center items-center'>
-                                <p className='inline-block text-xs text-center bg-red-500 text-white p-2 rounded'>{error}</p>
-                            </div>}
+                            
 
                             {loading && <Loader />}
                             {!loading && <>

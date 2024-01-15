@@ -19,15 +19,15 @@ const Signup = () => {
 
     return (
         <section>
-                  <nav className="bg-yellow-500 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-            <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
-          <div>
-              <Link href="/login" className="text-white mx-2">Login</Link>
-              <Link href="/register" className="text-white mx-2">Signup</Link>
-          </div>
-        </div>
-      </nav>
+            <nav className="bg-yellow-500 p-4">
+                <div className="container mx-auto flex justify-between items-center">
+                    <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
+                    <div>
+                        <Link href="/login" className="text-white mx-2">Login</Link>
+                        <Link href="/register" className="text-white mx-2">Signup</Link>
+                    </div>
+                </div>
+            </nav>
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
