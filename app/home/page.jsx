@@ -21,23 +21,23 @@ const BASE_URL = 'https://todo-api-umar.vercel.app';
 export default function Home() {
     const router = useRouter();
 
-    if (!localStorage.getItem('token')) {
-        router.replace('/login');
-    }
+    // if (!localStorage.getItem('token')) {
+    //     router.replace('/login');
+    // }
 
-    if (localStorage.getItem('token')) {
-        const token = localStorage.getItem('token');
-        const decodedToken = jwt.decode(token);
-        const currentTime = Date.now() / 1000;
+    // if (localStorage.getItem('token')) {
+    //     const token = localStorage.getItem('token');
+    //     const decodedToken = jwt.decode(token);
+    //     const currentTime = Date.now() / 1000;
 
-        if (decodedToken.exp < currentTime) {
-            localStorage.removeItem('token');
-            router.replace('/login');
-            toast.error('Session expired. Login Again.', {
-                duration: 4000,
-            })
-        }
-    }
+    //     if (decodedToken.exp < currentTime) {
+    //         localStorage.removeItem('token');
+    //         router.replace('/login');
+    //         toast.error('Session expired. Login Again.', {
+    //             duration: 4000,
+    //         })
+    //     }
+    // }
 
 
     const [todos, setTodos] = useState([]);
@@ -242,7 +242,7 @@ export default function Home() {
 
             {loading && <Loader />}
 
-            {!loading && <Navbar />}
+            {!loading && <Navbar showLogout={true} />}
 
             {!loading && (
                 <div className="flex flex-col p-8 noto">
