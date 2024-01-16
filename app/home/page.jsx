@@ -213,7 +213,10 @@ export default function Home() {
         }
     };
 
-
+    const handleLogout = async () => {
+        localStorage.setItem("token", "");
+        window.location.href = '/login';
+    }
 
     return (
         <section className={loading ? "flex flex-col justify-center items-center min-h-screen" : ""}>
@@ -223,10 +226,7 @@ export default function Home() {
             {!loading && <nav className="bg-yellow-500 p-4">
                 <div className="container mx-auto flex justify-between items-center">
                     <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
-                    <button onClick={function () {
-                        window.location.href = '/login';
-                        return localStorage.setItem("token", "");
-                    }}>
+                    <button onClick={handleLogout}>
                         <Link href="/" className="text-white bg-red-600 p-2 rounded hover:bg-red-500">Logout</Link>
                     </button>
                 </div>
