@@ -1,6 +1,9 @@
 "use client"
 import Link from 'next/link';
 import { useState } from 'react';
+import Loader from '../components/Loader';
+
+import { toast } from 'react-hot-toast';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -11,10 +14,48 @@ const Signup = () => {
     const handlePasswordChange = (e: any) => setPassword(e.target.value);
     const handleUsernameChange = (e: any) => setUsername(e.target.value);
 
-    const handleSubmit = (e: any) => {
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e:any) => {
         e.preventDefault();
-        // Add your signup logic here, using email and password
-        console.log('Signup submitted:', { email, password });
+
+        setLoading(true);
+
+        try {
+            const response = await fetch('https://todo-api-umar.vercel.app/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    username,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                toast.success(`Signup Successful!`, {
+                    duration: 4000,
+                });
+                const { access_token } = data;
+                localStorage.setItem('token', access_token);
+                window.location.href = '/home';
+            } else {
+                toast.error(`Signup Failed: ${data.detail}!`, {
+                    duration: 4000,
+                });
+                console.error('Signup failed');
+
+            }
+
+        } catch (error) {
+            console.error('Error during signup:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -80,13 +121,13 @@ const Signup = () => {
                                     required
                                 />
                             </div>
-
-                            <button
+                            {loading && <Loader />}
+                            {!loading && <button
                                 type="submit"
                                 className="w-full text-white font-bold bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center"
                             >
                                 Sign up
-                            </button>
+                            </button>}
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Already have an account?
                                 <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
