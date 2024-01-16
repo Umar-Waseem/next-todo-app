@@ -52,6 +52,9 @@ const Signup = () => {
             }
 
         } catch (error) {
+            toast.error(`Signup Failed due to an issue!`, {
+                duration: 4000,
+            });
             console.error('Error during signup:', error);
         } finally {
             setLoading(false);
