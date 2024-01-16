@@ -46,7 +46,15 @@ export default function Home() {
                 if (response.ok) {
                     const data = await response.json();
                     setTodos(data);
-                } else {
+                }
+                else if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    window.location.href = '/login';
+                    toast.error('Session expired. Login Again.', {
+                        duration: 4000,
+                    })
+                }
+                else {
                     console.error('Unable to fetch todos');
                 }
             } catch (error) {
@@ -104,7 +112,7 @@ export default function Home() {
             }
         } catch (error) {
             console.error('Error adding todo:', error);
-            toast.error('Task couldnt be added due to an error!', {
+            toast.error('Task couldnt be added due to an unexpected error!', {
                 duration: 4000,
             })
         }
@@ -161,6 +169,9 @@ export default function Home() {
                 setEditingDescription('');
             }
         } catch (error) {
+            toast.error('Task couldnt be updated due to an unexpected error!', {
+                duration: 4000,
+            })
             console.error('Error updating todo:', error);
         }
         finally {
@@ -193,7 +204,7 @@ export default function Home() {
             }
         } catch (error) {
             console.error('Error deleting todo:', error);
-            toast.error('Task couldnt be delete due to an error!', {
+            toast.error('Task couldnt be delete due to an unexpected error!', {
                 duration: 4000,
             })
         }
@@ -203,7 +214,9 @@ export default function Home() {
 
     return (
         <section className={loading ? "flex flex-col justify-center items-center min-h-screen" : ""}>
+
             {loading && <Loader />}
+
             {!loading && <nav className="bg-yellow-500 p-4">
                 <div className="container mx-auto flex justify-between items-center">
                     <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
@@ -213,12 +226,8 @@ export default function Home() {
                 </div>
             </nav>}
 
-
-
-
-
             {!loading && (
-                <div className="flex flex-col p-8">
+                <div className="flex flex-col p-8 noto">
                     <div className="mb-4 flex flex-col">
                         <h1 className="text-4xl font-bold mb-4">Your Tasks</h1>
                         <div className="flex flex-row">

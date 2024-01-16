@@ -2,6 +2,7 @@
 
 // Import necessary modules
 import Link from "next/link";
+import Image from "next/image";
 import Lottie from "lottie-web";
 import { useEffect, useRef } from "react";
 
@@ -35,17 +36,16 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      {/* Navigation Bar */}
-      <nav className="bg-yellow-500 p-4">
+    <section>
+      {/* <nav className="bg-yellow-500 p-4">
         <div className="container mx-auto flex justify-between items-center">
-            <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
+            <Link href="/" className="text-white text-xl font-black hover:text-red-500">Todo App</Link>
           <div>
-              <Link href="/login" className="text-white mx-2">Login</Link>
-              <Link href="/register" className="text-white mx-2">Signup</Link>
+              <Link href="/login" className="text-white mx-2 hover:text-red-500">Login</Link>
+              <Link href="/register" className="text-white mx-2 hover:text-red-500">Signup</Link>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Main Content */}
       <main className="flex min-h-screen items-center justify-center lg:flex-row flex-col">
@@ -56,17 +56,19 @@ export default function Home() {
           <p className="text-gray-400 lg:text-2xl">
             Organize your tasks and boost your productivity!
           </p>
-          <div className="flex gap-4 mt-4 justify-center lg:justify-start">
+          <div className="flex gap-4 mt-8 justify-center lg:justify-start">
             <Link
               href={"/login"}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded flex flex-row justify-center items-center"
             >
+            <Image src="/login.svg" width={20} height={20} alt={"login-icon"} className="mr-2"/>
               Login
             </Link>
             <Link
               href={"/register"}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded flex flex-row justify-center items-center"
             >
+              <Image src="/signup.svg" width={20} height={20} alt={"signup-icon"} className="mr-2"/>
               Signup
             </Link>
           </div>
@@ -76,7 +78,7 @@ export default function Home() {
           className="lg:w-1/2 w-96 lg:order-2 order-1 my-4"
         ></div>
       </main>
-    </div>
+    </section>
   );
 }
 

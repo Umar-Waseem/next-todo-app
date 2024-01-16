@@ -1,9 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Noto_Sans } from 'next/font/google'
 import './globals.css'
 import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Noto_Sans({ weight:"400", subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Todo List App',
@@ -17,10 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+
+      </head>
       <body className={inter.className}>
-      <Toaster position="top-center" />
+        <Toaster position="top-center" />
         {children}
-        </body>
+      </body>
     </html>
   )
 }

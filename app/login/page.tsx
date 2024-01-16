@@ -6,6 +6,8 @@ import Loader from '../components/Loader';
 
 import { toast } from 'react-hot-toast';
 
+import "../globals.css";
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -90,6 +92,7 @@ const Login = () => {
                                     Your email
                                 </label>
                                 <input
+                                disabled={loading}
                                     type="email"
                                     name="email"
                                     id="email"
@@ -105,6 +108,7 @@ const Login = () => {
                                     Password
                                 </label>
                                 <input
+                                disabled={loading}
                                     type="password"
                                     name="password"
                                     id="password"
@@ -127,7 +131,7 @@ const Login = () => {
                                 </button>
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                     Dont have an account yet?
-                                    <Link href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                    <Link href="/register" className="text-red-400 ml-2 font-medium text-primary-600 hover:underline dark:text-primary-500">
                                         Sign up
                                     </Link>
                                 </p>
