@@ -9,7 +9,13 @@ import { toast } from 'react-hot-toast';
 import "../globals.css";
 import Navbar from '../components/Navbar';
 
+import { useRouter } from 'next/navigation';
+
+
 const Login = () => {
+
+    const router = useRouter();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -49,7 +55,7 @@ const Login = () => {
 
                 const { access_token } = data;
                 localStorage.setItem('token', access_token);
-                window.location.href = '/home';
+                router.push('/home');
 
             } else {
 

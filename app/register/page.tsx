@@ -6,7 +6,12 @@ import Loader from '../components/Loader';
 import { toast } from 'react-hot-toast';
 import Navbar from '../components/Navbar';
 
+import { useRouter } from 'next/navigation';
+
 const Signup = () => {
+
+    const router = useRouter();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -17,7 +22,7 @@ const Signup = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         setLoading(true);
@@ -43,7 +48,7 @@ const Signup = () => {
                 });
                 const { access_token } = data;
                 localStorage.setItem('token', access_token);
-                window.location.href = '/home';
+                router.push('/home');
             } else {
                 toast.error(`Signup Failed: ${data.detail}!`, {
                     duration: 4000,
@@ -77,6 +82,7 @@ const Signup = () => {
                                     Your email
                                 </label>
                                 <input
+                                    disabled={loading}
                                     type="email"
                                     name="email"
                                     id="email"
@@ -92,6 +98,7 @@ const Signup = () => {
                                     Your Username
                                 </label>
                                 <input
+                                    disabled={loading}
                                     type="text"
                                     name="username"
                                     id="username"

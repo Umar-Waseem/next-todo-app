@@ -4,21 +4,41 @@
 import { toast } from 'react-hot-toast';
 import React, { useState, useEffect } from 'react';
 
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
+
+import Navbar from '../components/Navbar';
 import Image from 'next/image';
 
 import Loader from '../components/Loader';
 import IconButton from '../components/IconButton';
+
+import jwt from 'jsonwebtoken';
 
 import "../globals.css"
 
 const BASE_URL = 'https://todo-api-umar.vercel.app';
 
 export default function Home() {
+    const router = useRouter();
 
     if (!localStorage.getItem('token')) {
-        window.location.href = '/login';
+        router.replace('/login');
     }
+
+    if (localStorage.getItem('token')) {
+        const token = localStorage.getItem('token');
+        const decodedToken = jwt.decode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+            localStorage.removeItem('token');
+            router.replace('/login');
+            toast.error('Session expired. Login Again.', {
+                duration: 4000,
+            })
+        }
+    }
+
 
     const [todos, setTodos] = useState([]);
     const [newTodo, setNewTodo] = useState({ title: '', description: '' });
@@ -32,7 +52,7 @@ export default function Home() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            window.location.href = '/login';
+            router.replace('/login');
         }
 
         // Fetch todos from the API
@@ -52,7 +72,7 @@ export default function Home() {
                 }
                 else if (response.status === 401) {
                     localStorage.removeItem('token');
-                    window.location.href = '/login';
+                    router.replace('/login');
                     toast.error('Session expired. Login Again.', {
                         duration: 4000,
                     })
@@ -68,7 +88,7 @@ export default function Home() {
         }
 
         fetchTodos();
-    }, []);
+    }, [router]);
 
     const handleInputChange = (e) => {
         setNewTodo({
@@ -214,8 +234,7 @@ export default function Home() {
     };
 
     const handleLogout = async () => {
-        localStorage.setItem("token", "");
-        window.location.href = '/login';
+        router.replace('/login');
     }
 
     return (
@@ -223,20 +242,13 @@ export default function Home() {
 
             {loading && <Loader />}
 
-            {!loading && <nav className="bg-yellow-500 p-4">
-                <div className="container mx-auto flex justify-between items-center">
-                    <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
-                    <button onClick={handleLogout}>
-                        <Link href="/" className="text-white bg-red-600 p-2 rounded hover:bg-red-500">Logout</Link>
-                    </button>
-                </div>
-            </nav>}
+            {!loading && <Navbar />}
 
             {!loading && (
                 <div className="flex flex-col p-8 noto">
                     <div className="mb-4 flex flex-col">
-                        <h1 className="text-4xl font-bold mb-4">Your Tasks</h1>
-                        <div className="flex flex-row">
+                        <p className="text-4xl font-bold mb-4">Add An Item</p>
+                        <div className="flex flex-col md:flex-row lg:flex-row">
 
                             <div className="flex flex-col">
                                 <input
@@ -245,7 +257,7 @@ export default function Home() {
                                     placeholder="Todo Title"
                                     value={newTodo.title}
                                     onChange={handleInputChange}
-                                    className="border p-4 mr-2 mb-4"
+                                    className="border p-4 mr-2 mb-4 focus:border-yellow-500"
                                 />
                                 <textarea
                                     type="text"
@@ -253,19 +265,21 @@ export default function Home() {
                                     placeholder="Todo Description"
                                     value={newTodo.description}
                                     onChange={handleInputChange}
-                                    className="border p-4 mr-2 mb-4 resize-none"
+                                    className="border p-4 mr-2 mb-4 resize-none focus:border-yellow-500"
                                     rows={4}
                                     cols={30}
                                 />
                             </div>
-                            <div className='flex flex-col items-center justify-center'>
+                            <div className='flex flex-row items-center justify-center'>
                                 {addItemLoading && <Loader />}
                                 {!addItemLoading &&
-                                    <IconButton onClickFunc={() => handleAddTodo()} icon="/plus.svg" />
+                                    <>
+                                        <IconButton padding={"p-2"} bg_color={"bg-yellow-500"} text={"Add Todo"} onClickFunc={() => handleAddTodo()} icon="/plus.svg" /></>
                                 }
                             </div>
                         </div>
                     </div>
+                    <p className="text-4xl font-bold mb-4">Your Tasks</p>
                     <div className="flex flex-col justify-center items-center w-full">
 
                         {/* Todo List */}
