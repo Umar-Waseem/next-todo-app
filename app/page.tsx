@@ -10,6 +10,8 @@ import { useEffect, useRef } from "react";
 export default function Home() {
   const container = useRef<HTMLDivElement>(null);
 
+  
+
   useEffect(() => {
     let animationInstance: any;
 

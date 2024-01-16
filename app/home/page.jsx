@@ -16,6 +16,9 @@ const BASE_URL = 'https://todo-api-umar.vercel.app';
 
 export default function Home() {
 
+    if (!localStorage.getItem('token')) {
+        window.location.href = '/login';
+    }
 
     const [todos, setTodos] = useState([]);
     const [newTodo, setNewTodo] = useState({ title: '', description: '' });
@@ -220,9 +223,12 @@ export default function Home() {
             {!loading && <nav className="bg-yellow-500 p-4">
                 <div className="container mx-auto flex justify-between items-center">
                     <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
-                    <div>
+                    <button onClick={function () {
+                        window.location.href = '/login';
+                        return localStorage.setItem("token", "");
+                    }}>
                         <Link href="/" className="text-white bg-red-600 p-2 rounded hover:bg-red-500">Logout</Link>
-                    </div>
+                    </button>
                 </div>
             </nav>}
 
