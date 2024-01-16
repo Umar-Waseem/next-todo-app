@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Loader from '../components/Loader';
 
 import { toast } from 'react-hot-toast';
+import Navbar from '../components/Navbar';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -63,15 +64,7 @@ const Signup = () => {
 
     return (
         <section>
-            <nav className="bg-yellow-500 p-4">
-                <div className="container mx-auto flex justify-between items-center">
-                    <Link href="/" className="text-white text-xl font-bold">Todo App</Link>
-                    <div>
-                        <Link href="/login" className="text-white mx-2">Login</Link>
-                        <Link href="/register" className="text-white mx-2">Signup</Link>
-                    </div>
-                </div>
-            </nav>
+            <Navbar />
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -133,7 +126,7 @@ const Signup = () => {
                             </button>}
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Already have an account?
-                                <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                <Link href="/login" className="font-medium ml-2 text-red-400 text-primary-600 hover:underline dark:text-primary-500">
                                     Log in
                                 </Link>
                             </p>
